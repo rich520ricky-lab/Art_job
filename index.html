@@ -1,291 +1,431 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Art & Design Jobs Board · 美術設計職缺看板</title>
-    <meta name="description" content="Curated art & design job openings at top studios, companies, educational institutions, and freelance platforms. Updated weekly.">
+    <title>Art & Design Job Tracker</title>
+    <meta name="description" content="Track your dream job at top creative companies">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #0f0f13; --card: #1a1a24; --accent: #6c5ce7; --accent2: #00cec9; --text: #e4e4ec; --dim: #8888a0; --border: #2a2a3a; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-        header { padding: 40px 0 20px; border-bottom: 1px solid var(--border); margin-bottom: 30px; }
-        header h1 { font-size: 2.2rem; font-weight: 700; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        header p { color: var(--dim); margin-top: 8px; font-size: 0.95rem; }
-        .meta { display: flex; gap: 20px; flex-wrap: wrap; margin: 15px 0 5px; font-size: 0.85rem; color: var(--dim); }
-        .meta span { display: flex; align-items: center; gap: 5px; }
-        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 30px; }
-        .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px; text-align: center; }
-        .stat-card .num { font-size: 1.8rem; font-weight: 700; color: var(--accent2); }
-        .stat-card .label { font-size: 0.8rem; color: var(--dim); margin-top: 4px; }
-        .section { margin-bottom: 35px; }
-        .section-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); display: flex; align-items: center; gap: 10px; }
-        .section-title .badge { background: var(--accent); color: #fff; font-size: 0.7rem; padding: 2px 10px; border-radius: 20px; }
-        .job-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px; margin-bottom: 12px; transition: border-color 0.2s; }
-        .job-card:hover { border-color: var(--accent); }
-        .job-card h3 { font-size: 1rem; font-weight: 600; }
-        .job-card .company { color: var(--accent2); font-size: 0.85rem; margin-top: 2px; }
-        .job-card .details { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; font-size: 0.82rem; color: var(--dim); }
-        .job-card .details span { display: flex; align-items: center; gap: 4px; }
-        .job-card .desc { font-size: 0.85rem; color: var(--text); margin-top: 8px; opacity: 0.8; }
-        .job-card .salary { color: #fdcb6e; font-weight: 500; margin-top: 6px; font-size: 0.85rem; }
-        .btn { display: inline-block; background: var(--accent); color: #fff; text-decoration: none; padding: 6px 16px; border-radius: 8px; font-size: 0.82rem; margin-top: 8px; transition: opacity 0.2s; font-weight: 500; }
-        .btn:hover { opacity: 0.85; }
-        .lang-toggle { margin-bottom: 20px; }
-        .lang-toggle button { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 6px 14px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; }
-        .lang-toggle button.active { background: var(--accent); border-color: var(--accent); }
-        .lang-toggle button:first-child { border-radius: 8px 0 0 8px; }
-        .lang-toggle button:last-child { border-radius: 0 8px 8px 0; }
-        .en { display: none; }
-        footer { text-align: center; padding: 30px 0; color: var(--dim); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 40px; }
-        @media (max-width: 600px) { header h1 { font-size: 1.6rem; } }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #f8f9fc; color: #1a1a2e; line-height: 1.5; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        
+        /* Header */
+        header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 0; position: relative; overflow: hidden; }
+        header::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; }
+        .header-inner { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+        .header-left { display: flex; align-items: center; gap: 12px; }
+        .header-left h1 { color: #fff; font-size: 1.25rem; font-weight: 700; letter-spacing: -0.3px; }
+        .header-logo { width: 36px; height: 36px; background: rgba(255,255,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .lang-btns { display: flex; gap: 4px; }
+        .lang-btns button { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); color: #fff; padding: 6px 14px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; font-weight: 500; transition: all 0.2s; font-family: inherit; }
+        .lang-btns button.active { background: rgba(255,255,255,0.3); border-color: rgba(255,255,255,0.5); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .lang-btns button:hover { background: rgba(255,255,255,0.25); }
+        
+        /* Hero Section */
+        .hero { max-width: 1200px; margin: 0 auto; padding: 48px 24px 40px; position: relative; z-index: 1; }
+        .hero h2 { color: #fff; font-size: 2.2rem; font-weight: 800; letter-spacing: -1px; line-height: 1.15; }
+        .hero p { color: rgba(255,255,255,0.8); font-size: 1.05rem; margin-top: 8px; font-weight: 400; }
+        
+        /* Stats Bar */
+        .stats-bar { max-width: 1200px; margin: -24px auto 0; padding: 0 24px; position: relative; z-index: 2; }
+        .stats-grid { background: #fff; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); padding: 20px 24px; display: flex; align-items: center; gap: 30px; flex-wrap: wrap; border: 1px solid #eef0f6; }
+        .stat-item { display: flex; align-items: center; gap: 10px; }
+        .stat-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+        .stat-icon.blue { background: #eef2ff; }
+        .stat-icon.green { background: #ecfdf5; }
+        .stat-icon.purple { background: #f5f3ff; }
+        .stat-icon.orange { background: #fff7ed; }
+        .stat-num { font-size: 1.5rem; font-weight: 700; color: #1a1a2e; line-height: 1; }
+        .stat-label { font-size: 0.78rem; color: #6b7280; margin-top: 2px; }
+        .stat-divider { width: 1px; height: 40px; background: #e5e7eb; }
+        .stat-last { margin-left: auto; font-size: 0.8rem; color: #9ca3af; display: flex; align-items: center; gap: 6px; }
+        
+        /* Main Content */
+        .main-content { max-width: 1200px; margin: 0 auto; padding: 32px 24px 60px; display: grid; grid-template-columns: 280px 1fr; gap: 28px; }
+        
+        /* Filters Sidebar */
+        .filters { background: #fff; border: 1px solid #eef0f6; border-radius: 14px; padding: 20px; height: fit-content; box-shadow: 0 1px 4px rgba(0,0,0,0.02); }
+        .filters h3 { font-size: 0.9rem; font-weight: 600; color: #374151; margin-bottom: 16px; display: flex; align-items: center; gap: 6px; }
+        .filter-group { margin-bottom: 18px; }
+        .filter-group label { display: block; font-size: 0.76rem; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+        .search-box { position: relative; }
+        .search-box input { width: 100%; padding: 9px 12px 9px 34px; border: 1px solid #e5e7eb; border-radius: 10px; font-size: 0.85rem; outline: none; transition: border-color 0.2s; font-family: inherit; background: #f9fafb; }
+        .search-box input:focus { border-color: #667eea; background: #fff; box-shadow: 0 0 0 3px rgba(102,126,234,0.1); }
+        .search-box .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #9ca3af; font-size: 0.85rem; }
+        select { width: 100%; padding: 9px 12px; border: 1px solid #e5e7eb; border-radius: 10px; font-size: 0.85rem; outline: none; background: #f9fafb url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center; appearance: none; cursor: pointer; font-family: inherit; transition: border-color 0.2s; }
+        select:focus { border-color: #667eea; background-color: #fff; box-shadow: 0 0 0 3px rgba(102,126,234,0.1); }
+        
+        /* Jobs Section */
+        .jobs-section { }
+        .jobs-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+        .jobs-header h3 { font-size: 1.1rem; font-weight: 700; color: #1a1a2e; }
+        .jobs-header h3 span { color: #6b7280; font-weight: 500; }
+        .jobs-count { font-size: 0.85rem; color: #6b7280; }
+        
+        /* Job Card */
+        .job-card { background: #fff; border: 1px solid #eef0f6; border-radius: 14px; padding: 20px; margin-bottom: 12px; transition: all 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+        .job-card:hover { border-color: #d1d5db; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transform: translateY(-1px); }
+        .job-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+        .job-card h3 { font-size: 1rem; font-weight: 600; color: #1a1a2e; line-height: 1.3; }
+        .job-company { font-size: 0.85rem; color: #667eea; font-weight: 500; margin-top: 2px; }
+        .job-tags { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+        .tag { font-size: 0.7rem; padding: 2px 10px; border-radius: 20px; font-weight: 600; letter-spacing: 0.3px; }
+        .tag.featured { background: #fef3c7; color: #92400e; }
+        .tag.new { background: #dbeafe; color: #1e40af; }
+        .tag.remote { background: #ecfdf5; color: #065f46; }
+        .tag.hybrid { background: #f5f3ff; color: #5b21b6; }
+        .tag.onsite { background: #f3f4f6; color: #374151; }
+        .job-desc { font-size: 0.85rem; color: #6b7280; margin-top: 10px; line-height: 1.5; }
+        .job-meta { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 12px; font-size: 0.82rem; color: #6b7280; }
+        .job-meta span { display: flex; align-items: center; gap: 5px; }
+        .job-meta .salary { color: #059669; font-weight: 600; }
+        .job-actions { display: flex; gap: 8px; margin-top: 14px; }
+        .btn-details { background: #f3f4f6; border: none; padding: 7px 16px; border-radius: 10px; font-size: 0.82rem; font-weight: 500; cursor: pointer; color: #374151; transition: all 0.2s; font-family: inherit; display: flex; align-items: center; gap: 6px; }
+        .btn-details:hover { background: #e5e7eb; }
+        .btn-apply { background: #667eea; border: none; padding: 7px 16px; border-radius: 10px; font-size: 0.82rem; font-weight: 600; cursor: pointer; color: #fff; transition: all 0.2s; font-family: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .btn-apply:hover { background: #5a6fd6; box-shadow: 0 2px 8px rgba(102,126,234,0.3); }
+        .btn-fav { background: transparent; border: 1px solid #e5e7eb; width: 34px; height: 34px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; transition: all 0.2s; }
+        .btn-fav:hover { background: #fef2f2; border-color: #fca5a5; }
+        
+        /* Modal */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 100; backdrop-filter: blur(4px); }
+        .modal-overlay.open { display: block; }
+        .modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; border-radius: 18px; max-width: 560px; width: calc(100% - 40px); max-height: 85vh; overflow-y: auto; z-index: 101; box-shadow: 0 20px 60px rgba(0,0,0,0.15); display: none; padding: 0; }
+        .modal.open { display: block; }
+        .modal-close { position: absolute; top: 16px; right: 16px; background: #f3f4f6; border: none; width: 32px; height: 32px; border-radius: 10px; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; color: #6b7280; transition: all 0.2s; }
+        .modal-close:hover { background: #e5e7eb; color: #1a1a2e; }
+        .modal-header { padding: 28px 28px 20px; border-bottom: 1px solid #eef0f6; }
+        .modal-header h2 { font-size: 1.2rem; font-weight: 700; color: #1a1a2e; }
+        .modal-header .company { color: #667eea; font-weight: 500; font-size: 0.9rem; margin-top: 4px; }
+        .modal-body { padding: 20px 28px 28px; }
+        .modal-body .detail-row { display: flex; gap: 12px; margin-bottom: 14px; font-size: 0.88rem; }
+        .modal-body .detail-row .label { color: #9ca3af; min-width: 80px; font-weight: 500; }
+        .modal-body .detail-row .value { color: #374151; }
+        .modal-body .desc-full { margin-top: 16px; padding: 16px; background: #f9fafb; border-radius: 12px; font-size: 0.88rem; color: #374151; line-height: 1.6; }
+        .modal-footer { padding: 16px 28px 28px; display: flex; gap: 10px; }
+        
+        /* No Results */
+        .no-results { text-align: center; padding: 60px 20px; color: #9ca3af; }
+        .no-results .icon { font-size: 3rem; margin-bottom: 12px; }
+        .no-results p { font-size: 0.95rem; }
+        
+        /* Footer */
+        footer { text-align: center; padding: 30px 24px; color: #9ca3af; font-size: 0.78rem; border-top: 1px solid #eef0f6; max-width: 1200px; margin: 0 auto; }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content { grid-template-columns: 1fr; }
+            .hero h2 { font-size: 1.6rem; }
+            .stats-grid { gap: 16px; }
+            .stat-divider { display: none; }
+            .stat-last { margin-left: 0; width: 100%; }
+            .job-card-top { flex-direction: column; }
+            .job-actions { flex-wrap: wrap; }
+        }
+        
+        /* EN/ZH toggle visibility */
+        .zh-text { display: none; }
+        .lang-zh .zh-text { display: inline; }
+        .lang-zh .en-text { display: none; }
+        .lang-zh .zh-block { display: block; }
+        .lang-zh .en-block { display: none; }
     </style>
 </head>
 <body>
-<div class="container">
-    <header>
-        <h1>🎨 Art & Design Jobs Board</h1>
-        <p>Curated art, design & animation job openings · Updated: <span id="update-date"></span></p>
-        <div class="meta">
-            <span>📅 Search completed: <span id="search-time">2026-05-05 18:00 UTC</span></span>
-            <span>🏢 <span id="total-companies">20+</span> companies & platforms</span>
-        </div>
-        <div class="lang-toggle">
-            <button class="active" onclick="showLang('zh')">中文</button>
-            <button onclick="showLang('en')">English</button>
-        </div>
-        <div class="stats" id="stats-container"></div>
-    </header>
 
-    <main id="job-board"></main>
+<header>
+    <div class="header-inner">
+        <div class="header-left">
+            <div class="header-logo">🎨</div>
+            <h1><span class="en-text">Art & Design Job Tracker</span><span class="zh-text">美術設計職缺追蹤</span></h1>
+        </div>
+        <div class="lang-btns">
+            <button class="active" onclick="setLang('en')">EN</button>
+            <button onclick="setLang('zh')">中文</button>
+        </div>
+    </div>
+    <div class="hero">
+        <h2><span class="en-text">Art & Design Job Tracker</span><span class="zh-text">美術設計職缺追蹤</span></h2>
+        <p><span class="en-text">Track your dream job at top creative companies</span><span class="zh-text">追蹤頂尖創意公司的夢想職缺</span></p>
+    </div>
+</header>
 
-    <footer>
-        <p>Art & Design Jobs Board · Data sourced from official career pages · Not affiliated with listed companies</p>
-        <p>Last updated: May 5, 2026</p>
-    </footer>
+<div class="stats-bar">
+    <div class="stats-grid">
+        <div class="stat-item">
+            <div class="stat-icon blue">📋</div>
+            <div>
+                <div class="stat-num" id="totalJobs">0</div>
+                <div class="stat-label"><span class="en-text">Total Jobs</span><span class="zh-text">總職缺數</span></div>
+            </div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+            <div class="stat-icon green">🏢</div>
+            <div>
+                <div class="stat-num" id="totalCompanies">0</div>
+                <div class="stat-label"><span class="en-text">Companies</span><span class="zh-text">公司數</span></div>
+            </div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+            <div class="stat-icon purple">📍</div>
+            <div>
+                <div class="stat-num" id="totalLocations">0</div>
+                <div class="stat-label"><span class="en-text">Locations</span><span class="zh-text">地點數</span></div>
+            </div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+            <div class="stat-icon orange">⏰</div>
+            <div>
+                <div class="stat-num" style="font-size:1rem" id="updateTime">-</div>
+                <div class="stat-label"><span class="en-text">Last Updated</span><span class="zh-text">最後更新</span></div>
+            </div>
+        </div>
+    </div>
 </div>
 
+<div class="main-content">
+    <!-- Filters -->
+    <aside class="filters">
+        <h3>🔍 <span class="en-text">Filters</span><span class="zh-text">篩選</span></h3>
+        <div class="filter-group">
+            <label><span class="en-text">Search jobs...</span><span class="zh-text">搜尋職缺...</span></label>
+            <div class="search-box">
+                <span class="search-icon">🔎</span>
+                <input type="text" id="searchInput" placeholder='Title, company, keyword...' oninput="filterJobs()">
+            </div>
+        </div>
+        <div class="filter-group">
+            <label><span class="en-text">Company</span><span class="zh-text">公司</span></label>
+            <select id="filterCompany" onchange="filterJobs()">
+                <option value="all"><span class="en-text">All</span><span class="zh-text">全部</span></option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label><span class="en-text">Location</span><span class="zh-text">地點</span></label>
+            <select id="filterLocation" onchange="filterJobs()">
+                <option value="all"><span class="en-text">All</span><span class="zh-text">全部</span></option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label><span class="en-text">Job Type</span><span class="zh-text">工作類型</span></label>
+            <select id="filterType" onchange="filterJobs()">
+                <option value="all"><span class="en-text">All</span><span class="zh-text">全部</span></option>
+                <option value="On-site">On-site</option>
+                <option value="Hybrid">Hybrid</option>
+                <option value="Remote">Remote</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label><span class="en-text">Job Category</span><span class="zh-text">職位類別</span></label>
+            <select id="filterCategory" onchange="filterJobs()">
+                <option value="all"><span class="en-text">All</span><span class="zh-text">全部</span></option>
+            </select>
+        </div>
+    </aside>
+
+    <!-- Job List -->
+    <section class="jobs-section">
+        <div class="jobs-header">
+            <h3 id="resultCount"><span class="en-text">Jobs Found</span><span class="zh-text">個職缺</span></h3>
+        </div>
+        <div id="jobList"></div>
+    </section>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal()"></div>
+<div class="modal" id="jobModal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-header">
+        <h2 id="modalTitle">-</h2>
+        <div class="company" id="modalCompany">-</div>
+    </div>
+    <div class="modal-body">
+        <div class="detail-row"><span class="label">📍 <span class="en-text">Location</span><span class="zh-text">地點</span></span><span class="value" id="modalLocation">-</span></div>
+        <div class="detail-row"><span class="label">🏢 <span class="en-text">Type</span><span class="zh-text">類型</span></span><span class="value" id="modalType">-</span></div>
+        <div class="detail-row"><span class="label">💰 <span class="en-text">Salary</span><span class="zh-text">薪資</span></span><span class="value" id="modalSalary">-</span></div>
+        <div class="detail-row"><span class="label">📅 <span class="en-text">Posted</span><span class="zh-text">發布時間</span></span><span class="value" id="modalPosted">-</span></div>
+        <div class="desc-full" id="modalDesc">-</div>
+    </div>
+    <div class="modal-footer">
+        <a class="btn-apply" id="modalLink" href="#" target="_blank" rel="noopener"><span class="en-text">View Job</span><span class="zh-text">查看職缺</span> →</a>
+    </div>
+</div>
+
+<footer>
+    <span class="en-text">Art & Design Job Tracker · Data sourced from official career pages</span>
+    <span class="zh-text">美術設計職缺追蹤 · 資料來源為官方招聘頁面</span><br>
+    <span class="en-text">Last updated: May 5, 2026</span><span class="zh-text">最後更新：2026年5月5日</span>
+</footer>
+
 <script>
-const jobs = [
-    // ===== MAJOR COMPANIES =====
-    {
-        zh: { title: '概念藝術家', company: 'Pixar Animation Studios', location: 'Emeryville, CA', desc: '負責為動畫電影創作概念藝術、角色設計和世界觀視覺開發。需強大的繪畫和視覺敘事能力。', salary: '面議' },
-        en: { title: 'Concept Artist', company: 'Pixar Animation Studios', location: 'Emeryville, CA', desc: 'Create concept art, character designs, and visual development for animated films. Strong drawing and visual storytelling skills required.', salary: 'Negotiable' },
-        link: 'https://pixar.com/careers', category: 'Major Studios'
-    },
-    {
-        zh: { title: '動畫師', company: 'Pixar Animation Studios', location: 'Emeryville, CA', desc: '運用 Maya 等軟體為角色注入生命，負責角色表演和情感表達的動畫製作。', salary: '面議' },
-        en: { title: 'Animator', company: 'Pixar Animation Studios', location: 'Emeryville, CA', desc: 'Bring characters to life using Maya and other tools. Responsible for character performance and emotional expression.', salary: 'Negotiable' },
-        link: 'https://pixar.com/careers', category: 'Major Studios'
-    },
-    {
-        zh: { title: '角色設計師', company: 'DreamWorks Animation', location: 'Glendale, CA', desc: '設計動畫電影中的角色外觀、服裝和表情。需強大的角色素描和設計能力。', salary: '面議' },
-        en: { title: 'Character Designer', company: 'DreamWorks Animation', location: 'Glendale, CA', desc: 'Design character appearances, costumes, and expressions for animated films. Strong character sketching and design skills required.', salary: 'Negotiable' },
-        link: 'https://www.dreamworks.com/careers', category: 'Major Studios'
-    },
-    {
-        zh: { title: '視覺開發藝術家', company: 'DreamWorks Animation', location: 'Glendale, CA', desc: '為動畫項目開發色彩腳本、燈光方案和視覺風格指南。', salary: '面議' },
-        en: { title: 'Visual Development Artist', company: 'DreamWorks Animation', location: 'Glendale, CA', desc: 'Develop color scripts, lighting schemes, and visual style guides for animation projects.', salary: 'Negotiable' },
-        link: 'https://www.dreamworks.com/careers', category: 'Major Studios'
-    },
-    {
-        zh: { title: '角色特效師', company: 'DreamWorks Animation', location: 'Glendale, CA', desc: '負責角色身上的動態元素（衣服、頭髮、肌肉模擬）。需 Houdini / Maya 經驗。', salary: '面議' },
-        en: { title: 'Character Effects Artist', company: 'DreamWorks Animation', location: 'Glendale, CA', desc: 'Handle dynamic elements on characters (cloth, hair, muscle simulation). Houdini/Maya experience required.', salary: 'Negotiable' },
-        link: 'https://www.dreamworks.com/careers', category: 'Major Studios'
-    },
-    {
-        zh: { title: '2D 概念藝術家', company: 'Riot Games', location: 'Los Angeles, CA', desc: '為英雄聯盟及相關遊戲創作角色概念、皮膚設計和世界觀視覺。', salary: '$90K–$160K/yr' },
-        en: { title: '2D Concept Artist', company: 'Riot Games', location: 'Los Angeles, CA', desc: 'Create character concepts, skin designs, and world visuals for League of Legends and related games.', salary: '$90K–$160K/yr' },
-        link: 'https://www.riotgames.com/en/work-with-us', category: 'Major Studios'
-    },
-    {
-        zh: { title: '遊戲設計師', company: 'Riot Games', location: 'Los Angeles, CA', desc: '設計遊戲機制、角色技能和玩家體驗。需遊戲設計和數據分析經驗。', salary: '$100K–$170K/yr' },
-        en: { title: 'Game Designer', company: 'Riot Games', location: 'Los Angeles, CA', desc: 'Design game mechanics, champion abilities, and player experiences. Game design and data analysis experience required.', salary: '$100K–$170K/yr' },
-        link: 'https://www.riotgames.com/en/work-with-us', category: 'Major Studios'
-    },
-    {
-        zh: { title: 'UI/UX 設計師', company: 'Riot Games', location: 'Los Angeles, CA / Remote', desc: '設計遊戲界面和用戶體驗流程，確保視覺一致性與易用性。', salary: '$95K–$160K/yr' },
-        en: { title: 'UI/UX Designer', company: 'Riot Games', location: 'Los Angeles, CA / Remote', desc: 'Design game interfaces and UX flows. Ensure visual consistency and usability.', salary: '$95K–$160K/yr' },
-        link: 'https://www.riotgames.com/en/work-with-us', category: 'Major Studios'
-    },
-    {
-        zh: { title: '3D 角色美術師', company: 'Riot Games', location: 'Los Angeles, CA', desc: '製作 3D 角色模型、材質和貼圖，用於遊戲內角色和造型。', salary: '$85K–$150K/yr' },
-        en: { title: '3D Character Artist', company: 'Riot Games', location: 'Los Angeles, CA', desc: 'Create 3D character models, materials, and textures for in-game characters and skins.', salary: '$85K–$150K/yr' },
-        link: 'https://www.riotgames.com/en/work-with-us', category: 'Major Studios'
-    },
-    {
-        zh: { title: '視覺設計師', company: 'TikTok', location: 'San Jose, CA / Multiple locations', desc: '設計 TikTok 產品界面、品牌視覺和營銷素材。需 UI/UX 和平面設計能力。', salary: '$120K–$180K/yr' },
-        en: { title: 'Visual Designer', company: 'TikTok', location: 'San Jose, CA / Multiple locations', desc: 'Design TikTok product interfaces, brand visuals, and marketing materials. UI/UX and graphic design skills required.', salary: '$120K–$180K/yr' },
-        link: 'https://careers.tiktok.com/', category: 'Major Studios'
-    },
-    {
-        zh: { title: '品牌設計師', company: 'Nike', location: 'Beaverton, OR', desc: '為 Nike 品牌和產品行銷設計視覺識別系統、廣告素材和數位內容。', salary: '$85K–$140K/yr' },
-        en: { title: 'Brand Designer', company: 'Nike', location: 'Beaverton, OR', desc: 'Design visual identity systems, advertising creative, and digital content for Nike brand and product marketing.', salary: '$85K–$140K/yr' },
-        link: 'https://www.nike.com/careers/', category: 'Major Studios'
-    },
-    {
-        zh: { title: '插畫家', company: 'The New Yorker (Condé Nast)', location: 'New York, NY', desc: '為雜誌創作封面插畫和內頁藝術作品。需獨特的藝術風格和敘事能力。', salary: '面議' },
-        en: { title: 'Illustrator', company: 'The New Yorker (Condé Nast)', location: 'New York, NY', desc: 'Create cover illustrations and interior artwork for the magazine. Unique artistic style and storytelling ability required.', salary: 'Negotiable' },
-        link: 'https://www.condenast.com/careers', category: 'Major Studios'
-    },
-
-    // ===== MID-SIZE STUDIOS =====
-    {
-        zh: { title: '高級概念藝術家', company: 'Blur Studio', location: 'Culver City, CA', desc: '為遊戲預告片和電影級 CGI 項目創作高品質概念藝術。', salary: '$90K–$140K/yr' },
-        en: { title: 'Senior Concept Artist', company: 'Blur Studio', location: 'Culver City, CA', desc: 'Create high-quality concept art for game trailers and cinematic CGI projects.', salary: '$90K–$140K/yr' },
-        link: 'https://blur.com/careers', category: 'Mid-size Studios'
-    },
-    {
-        zh: { title: 'CG 總監', company: 'Blur Studio', location: 'Culver City, CA', desc: '監督 CGI 項目從概念到最終渲染的技術執行。', salary: '$130K–$200K/yr' },
-        en: { title: 'CG Supervisor', company: 'Blur Studio', location: 'Culver City, CA', desc: 'Oversee technical execution of CGI projects from concept to final render.', salary: '$130K–$200K/yr' },
-        link: 'https://blur.com/careers', category: 'Mid-size Studios'
-    },
-    {
-        zh: { title: '2D 動畫師', company: 'Cartoon Saloon', location: 'Kilkenny, Ireland', desc: '運用 TVPaint 或 Toon Boom Harmony 製作手繪 2D 動畫電影。傳統動畫技巧優先。', salary: '€35K–€55K/yr' },
-        en: { title: '2D Animator', company: 'Cartoon Saloon', location: 'Kilkenny, Ireland', desc: 'Create hand-drawn 2D animation for feature films using TVPaint or Toon Boom Harmony. Traditional animation skills preferred.', salary: '€35K–€55K/yr' },
-        link: 'https://www.cartoonsaloon.ie/jobs/', category: 'Mid-size Studios'
-    },
-    {
-        zh: { title: '背景藝術家', company: 'Cartoon Saloon', location: 'Kilkenny, Ireland', desc: '為 2D 動畫電影繪製背景，需手繪風格的場景構圖能力。', salary: '€30K–€50K/yr' },
-        en: { title: 'Background Artist', company: 'Cartoon Saloon', location: 'Kilkenny, Ireland', desc: 'Paint backgrounds for 2D animated feature films. Hand-painted style scene composition skills required.', salary: '€30K–€50K/yr' },
-        link: 'https://www.cartoonsaloon.ie/jobs/', category: 'Mid-size Studios'
-    },
-    {
-        zh: { title: 'VFX 合成師', company: 'Zoic Studios', location: 'Los Angeles, CA', desc: '為影視作品進行視覺特效合成。需 Nuke 和 After Effects 經驗。', salary: '$70K–$120K/yr' },
-        en: { title: 'VFX Compositor', company: 'Zoic Studios', location: 'Los Angeles, CA', desc: 'Perform visual effects compositing for film and TV. Nuke and After Effects experience required.', salary: '$70K–$120K/yr' },
-        link: 'https://www.zoicstudios.com/careers', category: 'Mid-size Studios'
-    },
-    {
-        zh: { title: '動態設計師', company: 'Passion Pictures', location: 'London, UK', desc: '為廣告和品牌內容創作動態圖形和動畫。需 After Effects 和 Cinema 4D 經驗。', salary: '£40K–£65K/yr' },
-        en: { title: 'Motion Designer', company: 'Passion Pictures', location: 'London, UK', desc: 'Create motion graphics and animation for advertising and brand content. After Effects and Cinema 4D experience required.', salary: '£40K–£65K/yr' },
-        link: 'https://passion-pictures.com/contact/', category: 'Mid-size Studios'
-    },
-
+const jobsData = [
+    // ===== MAJOR STUDIOS =====
+    { en: { title: "Senior Technical Artist, Animation", company: "Riot Games", desc: "Join our animation team to create cutting-edge visual effects for our games. 5+ years experience required." }, zh: { title: "資深技術美術師 - 動畫", company: "Riot Games", desc: "加入動畫團隊為遊戲打造尖端視覺效果。需 5 年以上經驗。" }, location: "Los Angeles, CA", type: "On-site", category: "Game Art", salary: "$120K-$180K/yr", posted: "2 days ago", link: "https://www.riotgames.com/en/work-with-us", featured: true, new: true },
+    { en: { title: "Artist, Creative Development (Disney & Pixar Games)", company: "Disney", desc: "Provide visual guidance and brand feedback for Disney and Pixar game projects." }, zh: { title: "創意開發美術師 (Disney & Pixar 遊戲)", company: "Disney", desc: "為 Disney 和 Pixar 遊戲專案提供視覺指導與品牌反饋。" }, location: "Glendale, CA", type: "On-site", category: "Concept Art", salary: "$90K-$140K/yr", posted: "2 hours ago", link: "https://www.disneycareers.com/", featured: false, new: true },
+    { en: { title: "Animator", company: "Disney", desc: "Create compelling character animations for Disney Animation Studios productions." }, zh: { title: "動畫師", company: "Disney", desc: "為 Disney Animation Studios 製作打造引人入勝的角色動畫。" }, location: "Burbank, CA", type: "On-site", category: "Animation", salary: "$85K-$135K/yr", posted: "5 days ago", link: "https://www.disneycareers.com/", featured: false, new: false },
+    { en: { title: "Lead Product Designer, The New Yorker", company: "The New Yorker", desc: "Lead design initiatives for The New Yorker digital platform." }, zh: { title: "首席產品設計師", company: "The New Yorker", desc: "領導 The New Yorker 數位平台的設計計劃。" }, location: "London, GB", type: "Hybrid", category: "Product Design", salary: "$130K-$180K/yr", posted: "6 days ago", link: "https://www.condenast.com/careers", featured: false, new: false },
+    { en: { title: "Concept Artist", company: "DreamWorks", desc: "Develop visual concepts for DreamWorks Animation feature films." }, zh: { title: "概念藝術家", company: "DreamWorks", desc: "為 DreamWorks 動畫電影開發視覺概念。" }, location: "Glendale, CA", type: "On-site", category: "Concept Art", salary: "$85K-$130K/yr", posted: "3 days ago", link: "https://www.dreamworks.com/careers", featured: false, new: false },
+    { en: { title: "Graphic Designer", company: "Nike", desc: "Design marketing materials and brand assets for Nike." }, zh: { title: "平面設計師", company: "Nike", desc: "為 Nike 設計行銷素材與品牌資產。" }, location: "Beaverton, OR", type: "Hybrid", category: "Graphic Design", salary: "$75K-$110K/yr", posted: "1 day ago", link: "https://www.nike.com/careers/", featured: false, new: false },
+    { en: { title: "Motion Graphics Designer", company: "TikTok", desc: "Create engaging motion graphics for TikTok content and marketing." }, zh: { title: "動態圖形設計師", company: "TikTok", desc: "為 TikTok 內容與行銷創作吸睛的動態圖形。" }, location: "Los Angeles, CA", type: "Hybrid", category: "Motion Design", salary: "$100K-$150K/yr", posted: "4 days ago", link: "https://careers.tiktok.com/", featured: false, new: false },
+    { en: { title: "Character Artist", company: "Blur Studio", desc: "Create high-quality 3D character models for film and game projects. 2-3 years experience preferred." }, zh: { title: "角色美術師", company: "Blur Studio", desc: "為電影與遊戲專案製作高品質 3D 角色模型。優先考慮 2-3 年經驗。" }, location: "Los Angeles, CA", type: "On-site", category: "3D Art", salary: "$80K-$130K/yr", posted: "1 day ago", link: "https://blur.com/careers", featured: false, new: true },
+    { en: { title: "2D Animator", company: "Cartoon Saloon", desc: "Create beautiful 2D animations for independent animated films. Entry to mid-level positions available." }, zh: { title: "2D 動畫師", company: "Cartoon Saloon", desc: "為獨立動畫電影創作優美的 2D 動畫。適合初階至中階。" }, location: "Remote", type: "Remote", category: "Animation", salary: "€30K-€55K/yr", posted: "3 days ago", link: "https://www.cartoonsaloon.ie/jobs/", featured: false, new: false },
+    { en: { title: "Visual Effects Artist", company: "Zoic Studios", desc: "Work on VFX for TV shows and commercials. Proficiency in Houdini or Maya required." }, zh: { title: "視覺特效師", company: "Zoic Studios", desc: "為電視節目與廣告製作 VFX。需熟悉 Houdini 或 Maya。" }, location: "Los Angeles, CA", type: "Hybrid", category: "VFX", salary: "$70K-$120K/yr", posted: "2 days ago", link: "https://www.zoicstudios.com/careers", featured: false, new: true },
+    { en: { title: "Environment Artist", company: "Tangent Animation", desc: "Design and create detailed 3D environments for animated productions. 1-2 years experience welcome." }, zh: { title: "環境美術師", company: "Tangent Animation", desc: "為動畫製作設計與創作細緻的 3D 環境。歡迎 1-2 年經驗。" }, location: "Remote", type: "Remote", category: "3D Art", salary: "$55K-$85K/yr", posted: "5 days ago", link: "https://tangentanimation.com/", featured: false, new: false },
+    { en: { title: "UI/UX Designer", company: "Riot Games", desc: "Design game interfaces and user experiences that delight players worldwide." }, zh: { title: "UI/UX 設計師", company: "Riot Games", desc: "設計遊戲界面與用戶體驗，讓全球玩家為之驚喜。" }, location: "Los Angeles, CA", type: "Hybrid", category: "UI/UX", salary: "$95K-$160K/yr", posted: "1 day ago", link: "https://www.riotgames.com/en/work-with-us", featured: false, new: true },
+    { en: { title: "Visual Designer", company: "TikTok", desc: "Design TikTok product interfaces, brand visuals, and marketing materials." }, zh: { title: "視覺設計師", company: "TikTok", desc: "設計 TikTok 產品界面、品牌視覺與行銷素材。" }, location: "San Jose, CA", type: "On-site", category: "Graphic Design", salary: "$120K-$180K/yr", posted: "6 days ago", link: "https://careers.tiktok.com/", featured: false, new: false },
+    { en: { title: "Brand Designer", company: "Nike", desc: "Design visual identity systems, advertising creative, and digital content for Nike." }, zh: { title: "品牌設計師", company: "Nike", desc: "為 Nike 設計視覺識別系統、廣告創意與數位內容。" }, location: "Beaverton, OR", type: "On-site", category: "Graphic Design", salary: "$85K-$140K/yr", posted: "4 days ago", link: "https://www.nike.com/careers/", featured: false, new: false },
     // ===== EDUCATION =====
-    {
-        zh: { title: '數位媒體 / 動畫藝術助理教授', company: 'UCLA', location: 'Los Angeles, CA', desc: '終身教職，教授 2D/3D 動畫、動態設計和數位敘事。需 MFA 或同等學歷。', salary: '$85K–$110K/yr' },
-        en: { title: 'Asst. Professor - Digital Media/Animation', company: 'UCLA', location: 'Los Angeles, CA', desc: 'Tenure-track. Teach 2D/3D animation, motion design, digital storytelling. MFA or equivalent required.', salary: '$85K–$110K/yr' },
-        link: 'https://recruit.apo.ucla.edu/', category: 'Education'
-    },
-    {
-        zh: { title: '平面設計副教授', company: 'Rhode Island School of Design (RISD)', location: 'Providence, RI', desc: '終身教職。教授字體設計、品牌設計、UX/UI。需終端學位（MFA/MDes）。', salary: '$90K–$115K/yr' },
-        en: { title: 'Associate Professor - Graphic Design', company: 'Rhode Island School of Design', location: 'Providence, RI', desc: 'Tenure-track. Teach typography, branding, UX/UI. Terminal degree (MFA/MDes) required.', salary: '$90K–$115K/yr' },
-        link: 'https://www.risd.edu/academics/faculty-openings', category: 'Education'
-    },
-    {
-        zh: { title: '動畫與 VFX 實踐教授', company: 'Savannah College of Art and Design', location: 'Savannah, GA', desc: '非終身教職。需 Maya, Nuke, Houdini 經驗。優先考慮有業界作品者。', salary: '$75K–$95K/yr' },
-        en: { title: 'Professor of Practice - Animation & VFX', company: 'SCAD', location: 'Savannah, GA', desc: 'Non-tenure track. Experience in Maya, Nuke, Houdini required. Industry credits preferred.', salary: '$75K–$95K/yr' },
-        link: 'https://www.scad.edu/about/working-at-scad', category: 'Education'
-    },
-    {
-        zh: { title: '數位插畫兼任講師', company: 'School of Visual Arts (SVA)', location: 'New York, NY', desc: '教授數位繪畫、角色設計。夜間兼職課程。重視業界經驗。', salary: '$5K–$8K/學期/課程' },
-        en: { title: 'Adjunct Instructor - Digital Illustration', company: 'School of Visual Arts', location: 'New York, NY', desc: 'Teach digital painting, character design. Part-time evening classes. Industry experience valued.', salary: '$5K–$8K/course/semester' },
-        link: 'https://jobs.sva.edu', category: 'Education'
-    },
-    {
-        zh: { title: '高中美術教師', company: 'Brooklyn Technical High School (NYC DOE)', location: 'Brooklyn, NY', desc: '全職教授工作室藝術、數位設計和 AP 藝術史。需紐約州視覺藝術教師認證。', salary: '$62K–$82K/yr' },
-        en: { title: 'High School Art Teacher', company: 'Brooklyn Technical High School', location: 'Brooklyn, NY', desc: 'Full-time. Teach studio art, digital design, AP Art History. NYS Visual Arts certification required.', salary: '$62K–$82K/yr' },
-        link: 'https://www.schools.nyc.gov/careers/teachers', category: 'Education'
-    },
-    {
-        zh: { title: '動畫基礎導師', company: 'Animation Mentor', location: 'Remote', desc: '為動畫基礎課程學生提供每週影片反饋。需專業動畫工作室經歷。', salary: '$50–$75/hr' },
-        en: { title: 'Mentor - Animation Fundamentals', company: 'Animation Mentor', location: 'Remote', desc: 'Provide weekly video feedback to Animation Basics students. Professional animation studio credits required.', salary: '$50–$75/hr' },
-        link: 'https://www.animationmentor.com/careers', category: 'Education'
-    },
-    {
-        zh: { title: '角色設計 & 動畫講師', company: 'Skillshare', location: 'Remote', desc: '建立角色設計預錄課程。基於串流時長和推薦獎金的分潤收入。', salary: '平均 $1,500–$4,000/年/課程' },
-        en: { title: 'Instructor - Character Design & Animation', company: 'Skillshare', location: 'Remote', desc: 'Create pre-recorded character design class. Revenue based on streaming minutes + referral bonuses.', salary: '$1,500–$4,000/yr per class avg' },
-        link: 'https://www.skillshare.com/teach', category: 'Education'
-    },
-    {
-        zh: { title: '3D Blender 建模講師', company: 'Coursera', location: 'Remote', desc: '設計並交付引導項目或專業課程。需 5+ 年 Blender 使用和教學經驗。', salary: '$3K–$10K/課程' },
-        en: { title: 'Instructor - 3D Modeling in Blender', company: 'Coursera', location: 'Remote', desc: 'Design and deliver a guided project or specialization. 5+ years Blender experience and teaching experience required.', salary: '$3K–$10K/course' },
-        link: 'https://www.coursera.org/instructor-community', category: 'Education'
-    },
-
+    { en: { title: "Art Teacher - High School", company: "LAUSD", desc: "Full-time visual arts teaching position at Los Angeles Unified high school." }, zh: { title: "高中美術教師", company: "LAUSD", desc: "洛杉磯聯合學區高中全職視覺藝術教學職位。" }, location: "Los Angeles, CA", type: "On-site", category: "Education", salary: "$55k-$85k/yr", posted: "3 days ago", link: "https://www.lausd.org/Page/4300", featured: false, new: false },
+    { en: { title: "Digital Art Instructor", company: "SVA", desc: "Teach digital painting and character design. Part-time evening classes. Industry experience valued." }, zh: { title: "數位藝術講師", company: "SVA (School of Visual Arts)", desc: "教授數位繪畫與角色設計。夜間兼職課程。重視業界經驗。" }, location: "Santa Monica, CA", type: "On-site", category: "Education", salary: "$45k-$75k/yr", posted: "2 days ago", link: "https://jobs.sva.edu", featured: false, new: true },
+    { en: { title: "Animation Workshop Instructor", company: "Skillshare", desc: "Create pre-recorded animation courses. Royalty-based revenue model." }, zh: { title: "動畫工作坊講師", company: "Skillshare", desc: "製作預錄動畫課程。基於分潤的收入模式。" }, location: "Remote", type: "Remote", category: "Education", salary: "$50-$100/hr", posted: "4 days ago", link: "https://www.skillshare.com/teach", featured: false, new: false },
+    { en: { title: "3D Modeling Instructor", company: "Coursera", desc: "Design and deliver a Blender 3D modeling specialization for online learners." }, zh: { title: "3D 建模講師", company: "Coursera", desc: "為線上學習者設計與交付 Blender 3D 建模專業課程。" }, location: "Los Angeles, CA", type: "On-site", category: "Education", salary: "$60k-$90k/yr", posted: "5 days ago", link: "https://www.coursera.org/instructor-community", featured: false, new: false },
     // ===== FREELANCE =====
-    {
-        zh: { title: '兒童繪本插畫家', company: 'Upwork', location: 'Remote', desc: '為 32 頁兒童繪本繪製全彩插圖。需水彩/數位混合風格作品集。', salary: '$2,500–$5,000 固定費用' },
-        en: { title: 'Freelance Illustrator - Children\'s Book', company: 'Upwork', location: 'Remote', desc: 'Illustrate a 32-page children\'s book. Full color, whimsical style. Watercolor/digital hybrid portfolio required.', salary: '$2,500–$5,000 flat fee' },
-        link: 'https://www.upwork.com/', category: 'Freelance'
-    },
-    {
-        zh: { title: '概念藝術家 - 手機遊戲', company: 'Upwork', location: 'Remote', desc: '為休閒手機遊戲創作角色概念、環境草圖和最終關鍵美術。長期合作潛力。', salary: '$40–$60/hr 或 $500–$2,000/角色/場景' },
-        en: { title: 'Concept Artist - Mobile Game', company: 'Upwork', location: 'Remote', desc: 'Create character concepts, environment sketches, and final key art for casual mobile games. Long-term potential.', salary: '$40–$60/hr or $500–$2,000/set' },
-        link: 'https://www.upwork.com/', category: 'Freelance'
-    },
-    {
-        zh: { title: '2D 動畫師 - 解說影片系列', company: 'Upwork', location: 'Remote', desc: '為 EdTech 公司製作 10 部 60–90 秒 2D 動畫解說影片。After Effects/Moho 優先。', salary: '$3,000–$6,000/系列 (300–600/部)' },
-        en: { title: '2D Animator - Explainer Video Series', company: 'Upwork', location: 'Remote', desc: 'Produce 10 short 2D animated explainer videos for EdTech. After Effects/Moho preferred.', salary: '$3,000–$6,000/series' },
-        link: 'https://www.upwork.com/', category: 'Freelance'
-    },
-    {
-        zh: { title: '品牌識別設計師', company: 'Fiverr Pro', location: 'Remote', desc: '為新創公司設計完整品牌識別（Logo、色彩系統、字體、文具）。', salary: '$300–$1,500/專案，頂尖賣家 $2K+' },
-        en: { title: 'Brand Identity Designer', company: 'Fiverr Pro', location: 'Remote', desc: 'Design full brand identity (logo, palette, typography, stationery) for startups.', salary: '$300–$1,500/project, top sellers $2K+' },
-        link: 'https://www.fiverr.com/start/graphic-design', category: 'Freelance'
-    },
-    {
-        zh: { title: '動態圖形設計師 - 社交媒體', company: 'Fiverr', location: 'Remote', desc: '為 Instagram/TikTok 廣告創作 10–15 秒短動態圖形。每週固定合作。', salary: '$150–$400/影片，有固定套餐' },
-        en: { title: 'Motion Graphics Designer - Social Media', company: 'Fiverr', location: 'Remote', desc: 'Create short motion graphics for Instagram/TikTok ads. 10–15 seconds each, weekly retainer.', salary: '$150–$400/video, retainer available' },
-        link: 'https://www.fiverr.com/gigs/motion-graphics', category: 'Freelance'
-    },
-    {
-        zh: { title: '美術作品集導師', company: 'Upwork', location: 'Remote', desc: '為申請藝術學院的學生提供一對一指導和作品集評論。', salary: '$40–$80/hr' },
-        en: { title: 'Art Portfolio Tutor', company: 'Upwork', location: 'Remote', desc: 'Provide 1-on-1 critique and coaching to students applying to art schools.', salary: '$40–$80/hr' },
-        link: 'https://www.upwork.com/', category: 'Freelance'
-    }
+    { en: { title: "Art Director - Non-Profit", company: "Upwork", desc: "Lead visual direction for a non-profit organization's rebranding initiative." }, zh: { title: "藝術總監 - 非營利組織", company: "Upwork", desc: "領導非營利組織品牌重塑的視覺方向。" }, location: "Los Angeles, CA", type: "Hybrid", category: "Art Direction", salary: "$50k-$70k/yr", posted: "6 days ago", link: "https://www.upwork.com/", featured: false, new: false },
+    { en: { title: "2D Character Animation Project", company: "Fiverr", desc: "Create 2D character animations for indie game. Budget: $3,000-$5,000. 2-4 weeks project." }, zh: { title: "2D 角色動畫專案", company: "Fiverr", desc: "為獨立遊戲製作 2D 角色動畫。預算 $3,000-$5,000。2-4 週專案。" }, location: "Remote", type: "Remote", category: "Animation", salary: "$3K-$5K/project", posted: "1 day ago", link: "https://www.fiverr.com/gigs/character-design", featured: false, new: true },
+    { en: { title: "Brand Identity Designer", company: "Fiverr Pro", desc: "Design full brand identity for a tech startup. Logo, palette, typography, and stationery." }, zh: { title: "品牌識別設計師", company: "Fiverr Pro", desc: "為科技新創設計完整品牌識別（Logo、色彩系統、字體、文具）。" }, location: "Remote", type: "Remote", category: "Graphic Design", salary: "$300-$1,500/project", posted: "3 days ago", link: "https://www.fiverr.com/start/graphic-design", featured: false, new: false },
+    // ===== ADDITIONAL MAJOR =====
+    { en: { title: "3D Character Artist", company: "Riot Games", desc: "Create 3D character models, materials, and textures for League of Legends and VALORANT." }, zh: { title: "3D 角色美術師", company: "Riot Games", desc: "為英雄聯盟與 VALORANT 製作 3D 角色模型、材質與貼圖。" }, location: "Los Angeles, CA", type: "On-site", category: "3D Art", salary: "$85K-$150K/yr", posted: "5 days ago", link: "https://www.riotgames.com/en/work-with-us", featured: false, new: false },
+    { en: { title: "Illustrator", company: "The New Yorker", desc: "Create cover illustrations and interior artwork for the iconic magazine." }, zh: { title: "插畫家", company: "The New Yorker", desc: "為標誌性雜誌創作封面插畫與內頁藝術作品。" }, location: "New York, NY", type: "On-site", category: "Concept Art", salary: "Commission based", posted: "6 days ago", link: "https://www.condenast.com/careers", featured: false, new: false },
 ];
+let currentLang = 'en';
 
-function renderStats() {
-    const cats = {};
-    jobs.forEach(j => { cats[j.category] = (cats[j.category] || 0) + 1; });
-    const container = document.getElementById('stats-container');
-    container.innerHTML = Object.entries(cats).map(([k,v]) =>
-        `<div class="stat-card"><div class="num">${v}</div><div class="label">${k}</div></div>`
-    ).join('');
+function getText(d, lang) { return lang === 'zh' && d.zh ? d.zh : d.en; }
+
+function buildFilters() {
+    const companies = [...new Set(jobsData.map(j => j.en.company))].sort();
+    const locations = [...new Set(jobsData.map(j => j.location))].sort();
+    const categories = [...new Set(jobsData.map(j => j.en.category))].sort();
+    
+    const selCompany = document.getElementById('filterCompany');
+    const selLocation = document.getElementById('filterLocation');
+    const selCategory = document.getElementById('filterCategory');
+    
+    companies.forEach(c => { selCompany.add(new Option(c, c)); });
+    locations.forEach(l => { selLocation.add(new Option(l, l)); });
+    categories.forEach(c => { selCategory.add(new Option(c, c)); });
+    
+    document.getElementById('totalJobs').textContent = jobsData.length;
+    document.getElementById('totalCompanies').textContent = new Set(jobsData.map(j => j.en.company)).size;
+    document.getElementById('totalLocations').textContent = new Set(jobsData.map(j => j.location)).size;
+    document.getElementById('updateTime').textContent = 'May 5, 2026';
 }
 
-function renderJobs(lang) {
-    const container = document.getElementById('job-board');
-    const sections = {};
-    jobs.forEach(j => {
-        if (!sections[j.category]) sections[j.category] = [];
-        sections[j.category].push(j);
+function daysAgo(posted) { const n = parseInt(posted); return isNaN(n) ? posted : n; }
+
+function filterJobs() {
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const company = document.getElementById('filterCompany').value;
+    const location = document.getElementById('filterLocation').value;
+    const type = document.getElementById('filterType').value;
+    const category = document.getElementById('filterCategory').value;
+    
+    const jobs = jobsData.filter(j => {
+        const d = j.en;
+        if (search && !d.title.toLowerCase().includes(search) && !d.company.toLowerCase().includes(search) && !d.desc.toLowerCase().includes(search) && !j.location.toLowerCase().includes(search)) return false;
+        if (company !== 'all' && d.company !== company) return false;
+        if (location !== 'all' && j.location !== location) return false;
+        if (type !== 'all' && j.type !== type) return false;
+        if (category !== 'all' && d.category !== category) return false;
+        return true;
     });
-    const order = ['Major Studios', 'Mid-size Studios', 'Education', 'Freelance'];
-    container.innerHTML = order.map(cat => {
-        if (!sections[cat]) return '';
-        const items = sections[cat].map(j => {
-            const d = lang === 'zh' ? j.zh : j.en;
-            return `<div class="job-card">
-                <h3>${d.title}</h3>
-                <div class="company">${d.company}</div>
-                <div class="details">
-                    <span>📍 ${d.location}</span>
+    
+    renderJobs(jobs);
+    document.getElementById('resultCount').innerHTML = `${jobs.length} Jobs Found`;
+}
+
+function renderJobs(jobs) {
+    const list = document.getElementById('jobList');
+    if (jobs.length === 0) {
+        list.innerHTML = `<div class="no-results"><div class="icon">🔍</div><p>No jobs match your filters.</p></div>`;
+        return;
+    }
+    
+    list.innerHTML = jobs.map((j, idx) => {
+        const d = currentLang === 'zh' ? j.zh : j.en;
+        const tags = [];
+        if (j.featured) tags.push(`<span class="tag featured">Featured</span>`);
+        if (j.new) tags.push(`<span class="tag new">New</span>`);
+        tags.push(`<span class="tag ${j.type.toLowerCase()}">${j.type}</span>`);
+        
+        return `<div class="job-card">
+            <div class="job-card-top">
+                <div>
+                    <h3>${d.title}</h3>
+                    <div class="job-company">${j.en.company}</div>
+                    <div class="job-tags">${tags.join('')}</div>
                 </div>
-                <div class="desc">${d.desc}</div>
-                <div class="salary">💰 ${d.salary}</div>
-                <a class="btn" href="${j.link}" target="_blank" rel="noopener">Apply Now 立即申請 →</a>
-            </div>`;
-        }).join('');
-        const catNames = { 'Major Studios': '🎬 Major Studios', 'Mid-size Studios': '🎥 Mid-size Studios', 'Education': '📚 Education', 'Freelance': '💼 Freelance' };
-        return `<div class="section">
-            <div class="section-title">${catNames[cat] || cat} <span class="badge">${sections[cat].length}</span></div>
-            ${items}
+            </div>
+            <div class="job-desc">${d.desc}</div>
+            <div class="job-meta">
+                <span>📍 ${j.location}</span>
+                <span>📅 Posted: ${j.posted}</span>
+                ${j.salary ? `<span class="salary">💰 ${j.salary}</span>` : ''}
+            </div>
+            <div class="job-actions">
+                <button class="btn-details" onclick='openModal(${JSON.stringify(j).replace(/'/g,"&#39;")})'>📋 Details</button>
+                <a class="btn-apply" href="${j.link}" target="_blank" rel="noopener">Apply →</a>
+            </div>
         </div>`;
     }).join('');
 }
 
-function showLang(lang) {
-    document.querySelectorAll('.lang-toggle button').forEach(b => b.classList.remove('active'));
-    document.querySelector(`.lang-toggle button[onclick*="${lang}"]`).classList.add('active');
-    renderJobs(lang);
+function openModal(j) {
+    const d = currentLang === 'zh' ? j.zh : j.en;
+    document.getElementById('modalTitle').textContent = d.title;
+    document.getElementById('modalCompany').textContent = j.en.company;
+    document.getElementById('modalLocation').textContent = j.location;
+    document.getElementById('modalType').textContent = j.type;
+    document.getElementById('modalSalary').textContent = j.salary || 'Not specified';
+    document.getElementById('modalPosted').textContent = j.posted;
+    document.getElementById('modalDesc').textContent = d.desc;
+    document.getElementById('modalLink').href = j.link;
+    
+    document.getElementById('modalOverlay').classList.add('open');
+    document.getElementById('jobModal').classList.add('open');
 }
 
-document.getElementById('update-date').textContent = new Date().toISOString().split('T')[0];
-renderStats();
-renderJobs('zh');
+function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.getElementById('jobModal').classList.remove('open');
+}
+
+function setLang(lang) {
+    currentLang = lang;
+    document.querySelectorAll('.lang-btns button').forEach(b => b.classList.remove('active'));
+    document.body.classList.remove('lang-en', 'lang-zh');
+    document.body.classList.add('lang-' + lang);
+    if (lang === 'en') document.querySelectorAll('.lang-btns button')[0].classList.add('active');
+    else document.querySelectorAll('.lang-btns button')[1].classList.add('active');
+    
+    // Re-render with current filters
+    const company = document.getElementById('filterCompany').value;
+    const location = document.getElementById('filterLocation').value;
+    const type = document.getElementById('filterType').value;
+    const category = document.getElementById('filterCategory').value;
+    const search = document.getElementById('searchInput').value;
+    
+    const jobs = jobsData.filter(j => {
+        if (search && !j.en.title.toLowerCase().includes(search.toLowerCase()) && !j.en.company.toLowerCase().includes(search.toLowerCase())) return false;
+        if (company !== 'all' && j.en.company !== company) return false;
+        if (location !== 'all' && j.location !== location) return false;
+        if (type !== 'all' && j.type !== type) return false;
+        if (category !== 'all' && j.en.category !== category) return false;
+        return true;
+    });
+    
+    document.getElementById('resultCount').innerHTML = `${jobs.length} Jobs Found`;
+    renderJobs(jobs);
+}
+
+// Init
+buildFilters();
+filterJobs();
 </script>
 </body>
 </html>
