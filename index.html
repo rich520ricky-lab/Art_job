@@ -202,19 +202,19 @@
         <div class="filter-group">
             <label><span class="en-text">Company</span><span class="zh-text">公司</span></label>
             <select id="filterCompany" onchange="filterJobs()">
-                <option value="all"><span class="en-text">All</span><span class="zh-text">全部</span></option>
+                <option value="all">All</option>
             </select>
         </div>
         <div class="filter-group">
             <label><span class="en-text">Location</span><span class="zh-text">地點</span></label>
             <select id="filterLocation" onchange="filterJobs()">
-                <option value="all"><span class="en-text">All</span><span class="zh-text">全部</span></option>
+                <option value="all">All</option>
             </select>
         </div>
         <div class="filter-group">
             <label><span class="en-text">Job Type</span><span class="zh-text">工作類型</span></label>
             <select id="filterType" onchange="filterJobs()">
-                <option value="all"><span class="en-text">All</span><span class="zh-text">全部</span></option>
+                <option value="all">All</option>
                 <option value="On-site">On-site</option>
                 <option value="Hybrid">Hybrid</option>
                 <option value="Remote">Remote</option>
@@ -223,7 +223,7 @@
         <div class="filter-group">
             <label><span class="en-text">Job Category</span><span class="zh-text">職位類別</span></label>
             <select id="filterCategory" onchange="filterJobs()">
-                <option value="all"><span class="en-text">All</span><span class="zh-text">全部</span></option>
+                <option value="all">All</option>
             </select>
         </div>
     </aside>
@@ -300,7 +300,7 @@ function getText(d, lang) { return lang === 'zh' && d.zh ? d.zh : d.en; }
 function buildFilters() {
     const companies = [...new Set(jobsData.map(j => j.en.company))].sort();
     const locations = [...new Set(jobsData.map(j => j.location))].sort();
-    const categories = [...new Set(jobsData.map(j => j.en.category))].sort();
+    const categories = [...new Set(jobsData.map(j => j.category))].sort();
     
     const selCompany = document.getElementById('filterCompany');
     const selLocation = document.getElementById('filterLocation');
@@ -326,32 +326,35 @@ function filterJobs() {
     const category = document.getElementById('filterCategory').value;
     
     const jobs = jobsData.filter(j => {
-        const d = j.en;
-        if (search && !d.title.toLowerCase().includes(search) && !d.company.toLowerCase().includes(search) && !d.desc.toLowerCase().includes(search) && !j.location.toLowerCase().includes(search)) return false;
-        if (company !== 'all' && d.company !== company) return false;
+        if (search && !j.en.title.toLowerCase().includes(search) && !j.en.company.toLowerCase().includes(search) && !j.en.desc.toLowerCase().includes(search) && !j.location.toLowerCase().includes(search) && !(j.zh && j.zh.title.toLowerCase().includes(search)) && !(j.zh && j.zh.desc.toLowerCase().includes(search))) return false;
+        if (company !== 'all' && j.en.company !== company) return false;
         if (location !== 'all' && j.location !== location) return false;
         if (type !== 'all' && j.type !== type) return false;
-        if (category !== 'all' && d.category !== category) return false;
+        if (category !== 'all' && j.category !== category) return false;
         return true;
     });
     
     renderJobs(jobs);
-    document.getElementById('resultCount').innerHTML = `${jobs.length} Jobs Found`;
+    const countText = currentLang === 'zh' ? `${jobs.length} 個職缺` : `${jobs.length} Jobs Found`;
+    document.getElementById('resultCount').innerHTML = countText;
 }
 
 function renderJobs(jobs) {
     const list = document.getElementById('jobList');
+    const isZh = currentLang === 'zh';
     if (jobs.length === 0) {
-        list.innerHTML = `<div class="no-results"><div class="icon">🔍</div><p>No jobs match your filters.</p></div>`;
+        list.innerHTML = `<div class="no-results"><div class="icon">🔍</div><p>${isZh ? '沒有符合篩選條件的職缺。' : 'No jobs match your filters.'}</p></div>`;
         return;
     }
     
+    const typeLabels = isZh ? { 'On-site': '現場', 'Hybrid': '混合', 'Remote': '遠端' } : {};
     list.innerHTML = jobs.map((j, idx) => {
-        const d = currentLang === 'zh' ? j.zh : j.en;
+        const d = isZh ? j.zh : j.en;
         const tags = [];
-        if (j.featured) tags.push(`<span class="tag featured">Featured</span>`);
-        if (j.new) tags.push(`<span class="tag new">New</span>`);
-        tags.push(`<span class="tag ${j.type.toLowerCase()}">${j.type}</span>`);
+        if (j.featured) tags.push(`<span class="tag featured">${isZh ? '精選' : 'Featured'}</span>`);
+        if (j.new) tags.push(`<span class="tag new">${isZh ? '最新' : 'New'}</span>`);
+        const typeClass = j.type.toLowerCase().replace(/[^a-z]/g, '');
+        tags.push(`<span class="tag ${typeClass}">${typeLabels[j.type] || j.type}</span>`);
         
         return `<div class="job-card">
             <div class="job-card-top">
@@ -364,12 +367,12 @@ function renderJobs(jobs) {
             <div class="job-desc">${d.desc}</div>
             <div class="job-meta">
                 <span>📍 ${j.location}</span>
-                <span>📅 Posted: ${j.posted}</span>
+                <span>📅 ${isZh ? '發布：' : 'Posted: '}${j.posted}</span>
                 ${j.salary ? `<span class="salary">💰 ${j.salary}</span>` : ''}
             </div>
             <div class="job-actions">
-                <button class="btn-details" onclick='openModal(${JSON.stringify(j).replace(/'/g,"&#39;")})'>📋 Details</button>
-                <a class="btn-apply" href="${j.link}" target="_blank" rel="noopener">Apply →</a>
+                <button class="btn-details" onclick='openModal(${JSON.stringify(j).replace(/'/g,"&#39;")})'>📋 ${isZh ? '詳情' : 'Details'}</button>
+                <a class="btn-apply" href="${j.link}" target="_blank" rel="noopener">${isZh ? '申請' : 'Apply'} →</a>
             </div>
         </div>`;
     }).join('');
@@ -403,24 +406,14 @@ function setLang(lang) {
     if (lang === 'en') document.querySelectorAll('.lang-btns button')[0].classList.add('active');
     else document.querySelectorAll('.lang-btns button')[1].classList.add('active');
     
-    // Re-render with current filters
-    const company = document.getElementById('filterCompany').value;
-    const location = document.getElementById('filterLocation').value;
-    const type = document.getElementById('filterType').value;
-    const category = document.getElementById('filterCategory').value;
-    const search = document.getElementById('searchInput').value;
+    // Update filter option text for bilingual support
+    const allText = lang === 'zh' ? '全部' : 'All';
+    document.querySelectorAll('#filterCompany option[value="all"], #filterLocation option[value="all"], #filterType option[value="all"], #filterCategory option[value="all"]').forEach(opt => { opt.textContent = allText; });
+    const typeTranslations = { 'On-site': '現場', 'Hybrid': '混合', 'Remote': '遠端' };
+    document.querySelectorAll('#filterType option:not([value="all"])').forEach(opt => { opt.textContent = lang === 'zh' ? typeTranslations[opt.value] || opt.value : opt.value; });
+    document.getElementById('searchInput').placeholder = lang === 'zh' ? '職稱、公司、關鍵字...' : 'Title, company, keyword...';
     
-    const jobs = jobsData.filter(j => {
-        if (search && !j.en.title.toLowerCase().includes(search.toLowerCase()) && !j.en.company.toLowerCase().includes(search.toLowerCase())) return false;
-        if (company !== 'all' && j.en.company !== company) return false;
-        if (location !== 'all' && j.location !== location) return false;
-        if (type !== 'all' && j.type !== type) return false;
-        if (category !== 'all' && j.en.category !== category) return false;
-        return true;
-    });
-    
-    document.getElementById('resultCount').innerHTML = `${jobs.length} Jobs Found`;
-    renderJobs(jobs);
+    filterJobs();
 }
 
 // Init
